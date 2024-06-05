@@ -301,4 +301,97 @@ function repeatedNumber(A) {
     return [x, y];
 }
 
-console.log(repeatedNumber([3, 1, 2, 5, 3]))
+// console.log(repeatedNumber([3, 1, 2, 5, 3]))
+
+// Kth-Largest Element in an Array
+function findKthLargest(nums, k) {
+    nums.sort((a, b) => a - b)
+
+    return nums[nums.length - k]
+};
+
+// console.log(findKthLargest([3,2,3,1,2,4,5,5,6], 4))
+
+// Trapping Rain Water
+// https://youtu.be/UZG3-vZlFM4?si=3q8T3TVuGRrF5WCt
+
+/*if number left and right side number is larger than water will trap */
+function trap(height) {
+    let left = [height[0]];
+    let right = [];
+    right[height.length - 1] = height[height.length - 1];
+
+    for (let i = 1; i < height.length; i++) {
+        left[i] = Math.max(height[i], left[i - 1]);
+        if (i >= 0) {
+            right[height.length - i - 1] = Math.max(height[height.length - i - 1], right[height.length - i]);
+        }
+    }
+    let netWater = 0;
+    for (let i = 0; i < height.length; i++) {
+        netWater += (Math.min(right[i], left[i])) - height[i];
+    }
+    return netWater;
+}
+
+// console.log(trap([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]))
+
+// Maximum Product Subarray
+// https://www.geeksforgeeks.org/maximum-product-subarray/
+function maxProductBruteForce(arr) {
+    let result = arr[0];
+    for (let i = 0; i < arr.length; i++) {
+        let mul = arr[i];
+
+        for (let j = i + 1; j < arr.length; j++) {
+            result = Math.max(result, mul);
+            mul *= arr[j];
+        }
+        result = Math.max(result, mul);
+    }
+    return result;
+}
+
+// https://youtu.be/hnswaLJvr6g?si=vpAH5vj9KAprJvFE
+function maxProduct(nums) {
+    let pre = 1, suff = 1
+    let ans = Number.NEGATIVE_INFINITY;
+
+    for (let i = 0; i < nums.length; i++) {
+        if (pre === 0) pre = 1;
+        if (suff === 0) suff = 1;
+
+        pre = pre * nums[i];
+        suff = suff * nums[nums.length - i - 1];
+        // console.log(nums[i], "pre:", pre, nums[nums.length - i - 1], "suff:", suff)
+
+        ans = Math.max(ans, Math.max(pre, suff));
+        // console.log("ans", ans)
+    }
+    return ans;
+}
+
+// console.log(maxProduct([1, -2, -3, 0, 7, -8, -2]))
+
+// Product of Array Except Self
+// https://youtu.be/G9zKmhybKBM?si=7-6DA9Nubu5nc9du
+
+function productExceptSelf(nums) {
+    let left = [1];
+    let right = [];
+    right[nums.length - 1] = 1;
+    let res = [];
+
+    for (let i = 1; i < nums.length; i++) {
+        left[i] = nums[i - 1] * left[i - 1]
+        right[nums.length - i - 1] = nums[nums.length - i] * right[nums.length - i]
+    }
+
+    for (let i = 0; i < nums.length; i++) {
+        res[i] = left[i] * right[i];
+    }
+    return res;
+}
+// https://youtu.be/bNvIQI2wAjk?si=268PyZ8a6s9kBPUm         ----more efficient
+// console.log(productExceptSelf([2, 1, 3, 4]))
+
