@@ -395,3 +395,20 @@ function productExceptSelf(nums) {
 // https://youtu.be/bNvIQI2wAjk?si=268PyZ8a6s9kBPUm         ----more efficient
 // console.log(productExceptSelf([2, 1, 3, 4]))
 
+
+// flatten function [1, [2, [3, 4], 5], 6] Outputs: [1, 2, 3, 4, 5, 6]
+function flatten(arr) {
+    let res = [];
+
+    arr.forEach((a) => {
+        if (Array.isArray(a)) {
+            res = res.concat(flatten(a))
+        } else {
+            res.push(a)
+        }
+    });
+
+    return res;
+}
+
+console.log(flatten([1, [2, [3, 4], 5], 6]))

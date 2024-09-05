@@ -198,4 +198,93 @@ function characterReplacement(s, k) {
     }
     return longest;
 }
-console.log(characterReplacement("ABAB", 2))
+// console.log(characterReplacement("ABAB", 2))
+
+// Group Anagrams
+// https://youtu.be/vzdNOK2oB2E?si=bQM1LEqKguNcKwJV     --in python
+function groupAnagrams(strs) {      //map has same key but array of value
+    //anagram word has same count. so, that will be key of map and value will be array anagram group
+    //in has map key can't be repeated.
+
+    let res = {};
+
+    for (let i = 0; i < strs.length; i++) {
+        let count = new Array(26).fill(0)
+        for (let j = 0; j < strs[i].length; j++)
+            count[strs[i].charCodeAt(j) - "a".charCodeAt(0)]++;
+
+        if (!res[count.toString()]) res[count.toString()] = []; //key and value pair if not exist ensure that value type will be array.
+
+        res[count.toString()].push(strs[i]);
+    }
+
+    return Object.values(res).reverse();
+}
+
+// console.log(groupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"]))
+
+// Longest Palindromic Substring
+// https://youtu.be/XYQecbcd6_c?si=-50N5Shrku49Ozw7
+function longestPalindrome(s) {
+    let res = ""
+    let reslen = 0;
+
+    for (let i = 0; i < s.length; i++) {
+        // for odd length
+        let l = i, r = i;
+        while ((l >= 0 && r < s.length) && s[l] === s[r]) {
+            if (reslen < (r - l + 1)) {
+                res = s.slice(l, r + 1);
+                reslen = r - l + 1;
+            }
+            l -= 1;
+            r += 1;
+        }
+        // for even length
+        l = i, r = i + 1;
+        while ((l >= 0 && r < s.length) && s[l] === s[r]) {
+            if (reslen < (r - l + 1)) {
+                res = s.slice(l, r + 1);
+                reslen = r - l + 1;
+            }
+            l -= 1;
+            r += 1;
+        }
+    }
+
+    return res;
+}
+
+// console.log(longestPalindrome("babad"))
+
+// Palindromic Substrings
+function countSubstrings(s) {
+    let count = 0;
+
+    for (let i = 0; i < s.length; i++) {
+        // for odd length
+        let l = i, r = i;
+        while ((l >= 0 && r < s.length) && s[l] === s[r]) {
+            count += 1;
+            l -= 1;
+            r += 1;
+        }
+        // for even length
+        l = i, r = i + 1;
+        while ((l >= 0 && r < s.length) && s[l] === s[r]) {
+            count += 1;
+            l -= 1;
+            r += 1;
+        }
+    }
+
+    return count;
+}
+
+// console.log(countSubstrings("aab"))
+// Count Palindromic Subsequences
+function countPS(str) {
+    
+}
+
+console.log(countPS("aaa"))
